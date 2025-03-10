@@ -3,7 +3,7 @@ from geometry_msgs.msg import PoseStamped
 import tf_transformations 
 from nav2_simple_commander.robot_navigator import BasicNavigator
 def tf_conv(hell:BasicNavigator,b,c,d):
-    x,y,z,w=tf_transformations(0.0,0.0,d)
+    x,y,z,w=tf_transformations.euler_from_quaternion(0.0,0.0,d)
     i=PoseStamped()
     i.header.frame_id="map"
     i.header.stamp=hell.get_clock().now().to_msg()
@@ -35,6 +35,8 @@ def main(args=None):
     
 
     hell.waitUntilNav2Active()
+    pose_1=pose_2=pose_3=PoseStamped()
+    
     
     pose_1=tf_conv(hell,2.0,2.0,0.0)
     pose_2=tf_conv(hell,-2.0,2.0,0.0)
