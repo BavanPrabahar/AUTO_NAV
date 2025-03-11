@@ -2,6 +2,7 @@ import rclpy
 from geometry_msgs.msg import PoseStamped
 import tf_transformations 
 from nav2_simple_commander.robot_navigator import BasicNavigator
+a=0
 def tf_conv(hell:BasicNavigator,b,c,d):
     x,y,z,w=tf_transformations.quaternion_from_euler(0.0,0.0,0.0)
     i=PoseStamped()
@@ -17,9 +18,12 @@ def tf_conv(hell:BasicNavigator,b,c,d):
     return i
 
 def main(args=None):
+    global a
+    a+=1
     rclpy.init(args=args)
     hell=BasicNavigator()
     x,y,z,w=tf_transformations.quaternion_from_euler(0.0,0.0,0.0)
+
     i=PoseStamped()
     i.header.frame_id="map"
     i.header.stamp=hell.get_clock().now().to_msg()
@@ -30,7 +34,8 @@ def main(args=None):
     i.pose.orientation.y=y
     i.pose.orientation.z=z
     i.pose.orientation.w=w
-    hell.setInitialPose(i)
+    if a==1:
+        hell.setInitialPose(i)
 
     
 
@@ -48,6 +53,7 @@ def main(args=None):
     while not hell.isTaskComplete():
         feedback = hell.getFeedback()
         print(feedback)
+        print("hello")
 
 
 
